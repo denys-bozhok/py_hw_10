@@ -1,5 +1,3 @@
-from random import randint
-
 from Goods import Phone
 
 from utils.get_dict_info import get_dict_info
@@ -12,6 +10,7 @@ from utils.still_smoke import still_smoke
 from utils.get_a_job import get_a_job
 from utils.every_year_eating import every_year_eating
 from utils.bie_goods import bie_goods
+from utils.get_black_number import get_black_number
 
 
 def game(hero: dict,
@@ -25,37 +24,13 @@ def game(hero: dict,
     # Декларирую переменные для игры переменные
 
     hero["education_lvl"] = educations_arr[0]["lvl"]
+    call = Phone.call_ambulance(Phone("Nokia-3310", 3, True, 500))
     hero_job = {}
     is_alive = True
     is_married = False
     is_alco = hurbits_arr[1]["isAlco"]
     is_smoke = hurbits_arr[0]["isSmoking"]
     history = ""
-
-    is_black_number = randint(0, 100)
-
-    # Рандомное число, выпадает каждый год. Если рандомное число равно 66 - игра окончена.
-    # Если при этом пользователь купил уже ТЕЛЕФОН - он может позвонить в скорую.
-    # С вероятностью 50% выживет или нет.
-
-    if is_black_number == 66:
-        is_alive = False
-
-        for el in hero["bag"]:
-            if el == "Nokia-3310":
-                print("U have some incidante. But U have phone. Call ambulance :")
-                is_alive = Phone.call_ambulance(Phone("Nokia-3310", 3, True, 500))
-
-                # Каждое важное событие записывается в историю, выводится в конце игры
-
-                history += f'{hero["age"]} - ' \
-                           f'U have some incidante. But U have phone. Call ambulance :\n' \
-                           f'{is_alive}!/'
-            else:
-                is_alive = False
-                print("\nSorry, your game is over by FORTUNA\n")
-                history += f'{hero["age"]} - ' \
-                           f'U have some incidante./'
 
     while current_age < end_point and is_alive:
 
@@ -75,6 +50,9 @@ def game(hero: dict,
             every_year_eating(hero)
 
         if 15 <= current_age <= end_point:
+            bie_goods(hero, goods_arr)
+
+        if current_age == 15:
             bie_goods(hero, goods_arr)
 
         if current_age == 16:
@@ -127,6 +105,7 @@ def game(hero: dict,
             hero["capital"] += hurbits_arr[1]["income"]
 
         is_alive = is_game_over(hero["capital"])
+        is_alive = get_black_number(hero, history, call)
 
         get_dict_info(hero)
 

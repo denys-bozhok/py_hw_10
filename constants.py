@@ -11,7 +11,7 @@ DESTROY_ACCIDENT_BY_DEFAULT = {
 
 CAPITAL_BY_DEFAULT = {
     "poor": 500,
-    "average": 1200,
+    "average": 3000,
     "rich": 100000,
 }
 

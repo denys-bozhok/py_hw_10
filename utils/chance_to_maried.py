@@ -2,7 +2,6 @@ from random import randint
 
 
 def chance_to_maried(is_married: bool) -> bool:
-
     if not is_married:
         random_chance_to_maried = randint(1, 20)
 
